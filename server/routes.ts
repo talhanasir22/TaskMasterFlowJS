@@ -22,6 +22,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  app.get("/api/tasks/filter", async (req: Request, res: Response) => {
+    try {
+      // In a real app, we would get the user ID from the authenticated session
+      const userId = 1; // Using default user ID for demo
+      const tasks = await storage.getTasks(userId);
+      res.json(tasks);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch tasks" });
+    }
+  });
+  
   app.get("/api/tasks/filter/:filter", async (req: Request, res: Response) => {
     try {
       const filter = req.params.filter as TaskFilter;
